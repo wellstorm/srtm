@@ -1,0 +1,1 @@
+dd conv=swab < $1 | hexdump -dv | perl -p -i -e 's/^[0-9a-f]{7}//' |perl -p -i -e  's/\s+([0-9a-f]+)/\1\n/g' | sed -n '/[a-z0-9]/ p' > `basename $1`.txt
