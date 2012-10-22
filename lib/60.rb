@@ -32,12 +32,16 @@ File.open(ARGV[0], "r") do |infile|
       # extract subsquare of size 61x61
       # Since longitude minutes march down, make output file name reflect that
       new_file =  "#{outdir_base}/#{base}/#{base}.#{'%02d' % (59 - lon)}.#{'%02d' % lat}.json"
-
+      puts new_file
       File.open new_file, "w+" do |outfile| 
         outfile.puts "{ \"height\": ["
         comma = ","
         (0..(59+1)).each do |irow|
           pos = (row1 + irow)* FILE_COLS + col1
+
+          if (lat==1 && lon==1) || (lat==2 && lon==1)
+            puts "lat #{lat}, long #{lon}: irow=#{irow} reading 60 values starting at #{pos} "
+          end
           infile.pos = pos*6
           s = infile.read (60+1)*6   
           vals = s.split.map{|t| t.to_i}.map{|n| (n==32768)? 'null': n}
